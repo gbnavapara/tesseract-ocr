@@ -285,8 +285,8 @@ TESS_API int TESS_CALL TessBaseAPIRecognizeForChopTest(TessBaseAPI* handle, ETEX
 TESS_API char* TESS_CALL TessBaseAPIProcessPages(TessBaseAPI* handle, const char* filename, const char* retry_config,
                                                  int timeout_millisec)
 {
-    STRING text_out;
-    if (handle->ProcessPages(filename, retry_config, timeout_millisec, &text_out))
+	STRING text_out; bool flag_thr;
+    if (handle->ProcessPages(filename, retry_config, timeout_millisec, &text_out,flag_thr))
         return text_out.strdup();
     else
         return NULL;
@@ -295,8 +295,8 @@ TESS_API char* TESS_CALL TessBaseAPIProcessPages(TessBaseAPI* handle, const char
 TESS_API char* TESS_CALL TessBaseAPIProcessPage(TessBaseAPI* handle, Pix* pix, int page_index, const char* filename,
                                                 const char* retry_config, int timeout_millisec)
 {
-    STRING text_out;
-    if (handle->ProcessPage(pix, page_index, filename, retry_config, timeout_millisec, &text_out))
+	STRING text_out; bool flag_thr;
+    if (handle->ProcessPage(pix, page_index, filename, retry_config, timeout_millisec, &text_out,flag_thr))
         return text_out.strdup();    
     else
         return NULL;

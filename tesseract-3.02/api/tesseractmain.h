@@ -17,10 +17,13 @@
  *
  **********************************************************************/
 
+
 #ifndef           TESSERACTMAIN_H
 #define           TESSERACTMAIN_H
 
 #ifdef _WIN32
+
+
 /**
  * main for windows command line
  */
@@ -48,3 +51,4 @@ int parse_args (int argc,
                 char *arglist[]);
 #endif
 #endif
+

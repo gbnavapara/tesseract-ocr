@@ -48,6 +48,32 @@
  **********************************************************************/
 
 int main(int argc, char **argv) {
+	 printf("%d  ", argc); printf("%s  ", argv[1]);
+
+	 //tesseract::TessBaseAPI::receiveargcandargv(argc, argv);
+	 int qw;
+	 char *thrname;
+	 bool flag_thr;
+	 for (qw = 1; qw <argc; qw++)
+	 {
+		 if (!strcmp(argv[qw],"thr"))
+		 {
+			 thrname = argv[2];
+			 flag_thr = true;
+			 FILE *temp_fp;
+			 temp_fp = fopen("TesseractTemp.txt", "w");
+			 fprintf(temp_fp, "%s_thresholded.jpg", thrname);
+			 fclose(temp_fp);
+
+			 break;
+		 }
+		 else
+			 flag_thr = false;
+	 }
+
+
+
+
 #ifdef USING_GETTEXT
   setlocale (LC_ALL, "");
   bindtextdomain (PACKAGE, LOCALEDIR);
@@ -180,7 +206,7 @@ int main(int argc, char **argv) {
   pixDestroy(&pixs);
 
   STRING text_out;
-  if (!api.ProcessPages(image, NULL, 0, &text_out)) {
+  if (!api.ProcessPages(image, NULL, 0, &text_out,flag_thr)) {
     fprintf(stderr, _("Error during processing.\n"));
   }
   bool output_hocr = false;

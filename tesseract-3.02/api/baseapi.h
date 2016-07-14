@@ -32,6 +32,7 @@
 #include "publictypes.h"
 #include "pageiterator.h"
 #include "resultiterator.h"
+#include "tesseractmain.h"
 
 template <typename T> class GenericVector;
 class PAGE_RES;
@@ -103,6 +104,8 @@ class TESS_API TessBaseAPI {
  public:
   TessBaseAPI();
   virtual ~TessBaseAPI();
+
+  //void receiveargcandargv(int _argc, char **_argv);
 
   /**
    * Returns the version identifier as a static string. Do not delete.
@@ -476,7 +479,7 @@ class TESS_API TessBaseAPI {
    */
   bool ProcessPages(const char* filename,
                     const char* retry_config, int timeout_millisec,
-                    STRING* text_out);
+                    STRING* text_out,bool flag_thr);
 
   /**
    * Recognizes a single page for ProcessPages, appending the text to text_out.
@@ -491,7 +494,7 @@ class TESS_API TessBaseAPI {
    */
   bool ProcessPage(Pix* pix, int page_index, const char* filename,
                    const char* retry_config, int timeout_millisec,
-                   STRING* text_out);
+                   STRING* text_out,bool flag_thr);
 
   /**
    * Get a reading-order iterator to the results of LayoutAnalysis and/or
@@ -785,6 +788,7 @@ class TESS_API TessBaseAPI {
   int image_width_;
   int image_height_;
   /* @} */
+
 
 };
 

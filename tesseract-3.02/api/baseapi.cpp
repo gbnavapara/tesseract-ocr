@@ -32,6 +32,12 @@
 #define _(x) (x)
 #endif
 
+#include<iostream>
+#include<fstream>
+#include<ostream>
+#include<istream>
+#include<stdio.h>
+#include<sstream>
 #include "baseapi.h"
 
 #include "resultiterator.h"
@@ -57,6 +63,7 @@
 #include "osdetect.h"
 #include "params.h"
 #include "strngs.h"
+#include "tesseractmain.h"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -70,6 +77,9 @@
 #if defined(_WIN32) && !defined(VERSION)
 #include "version.h"
 #endif
+
+
+
 
 namespace tesseract {
 
@@ -123,6 +133,9 @@ TessBaseAPI::TessBaseAPI()
 TessBaseAPI::~TessBaseAPI() {
   End();
 }
+
+
+
 
 /**
  * Returns the version identifier as a static string. Do not delete.
@@ -802,7 +815,7 @@ int TessBaseAPI::RecognizeForChopTest(ETEXT_DESC* monitor) {
  */
 bool TessBaseAPI::ProcessPages(const char* filename,
                                const char* retry_config, int timeout_millisec,
-                               STRING* text_out) {
+                               STRING* text_out,bool flag_thr) {
   int page = tesseract_->tessedit_page_number;
   if (page < 0)
     page = 0;
@@ -843,7 +856,7 @@ bool TessBaseAPI::ProcessPages(const char* filename,
       snprintf(page_str, kMaxIntSize - 1, "%d", page);
       SetVariable("applybox_page", page_str);
       success &= ProcessPage(pix, page, filename, retry_config,
-                             timeout_millisec, text_out);
+                             timeout_millisec, text_out,flag_thr);
       pixDestroy(&pix);
       if (tesseract_->tessedit_page_number >= 0 || npages == 1) {
         break;
@@ -854,7 +867,7 @@ bool TessBaseAPI::ProcessPages(const char* filename,
     pix = pixRead(filename);
     if (pix != NULL) {
       success &= ProcessPage(pix, 0, filename, retry_config,
-                             timeout_millisec, text_out);
+                             timeout_millisec, text_out,flag_thr);
       pixDestroy(&pix);
     } else {
       // The file is not an image file, so try it as a list of filenames.
@@ -879,7 +892,7 @@ bool TessBaseAPI::ProcessPages(const char* filename,
         }
         tprintf(_("Page %d : %s\n"), page, pagename);
         success &= ProcessPage(pix, page, pagename, retry_config,
-                               timeout_millisec, text_out);
+                               timeout_millisec, text_out,flag_thr);
         pixDestroy(&pix);
         ++page;
       }
@@ -904,9 +917,26 @@ bool TessBaseAPI::ProcessPages(const char* filename,
  */
 bool TessBaseAPI::ProcessPage(Pix* pix, int page_index, const char* filename,
                               const char* retry_config, int timeout_millisec,
-                              STRING* text_out) {
+                              STRING* text_out,bool flag_thr) {
   SetInputName(filename);
   SetImage(pix);
+
+  /* this is edited code for thresholding*/
+  
+
+  std::string temp_line;
+  std::ifstream temp_fp("TesseractTemp.txt");
+  getline(temp_fp, temp_line);
+  temp_fp.close();
+  remove("TesseractTemp.txt");
+
+  if (flag_thr){
+	  PIX* thresholded = GetThresholdedImage();
+	  pixWrite(temp_line.c_str(), thresholded, 3);
+  }
+ //end of editing
+
+
   bool failed = false;
   if (timeout_millisec > 0) {
     // Running with a timeout.
