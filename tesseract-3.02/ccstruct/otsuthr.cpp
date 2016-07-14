@@ -35,6 +35,7 @@ void OtsuThreshold(const unsigned char* imagedata,
                    int** thresholds, int** hi_values) {
   // Of all channels with no good hi_value, keep the best so we can always
   // produce at least one answer.
+
   int best_hi_value = 1;
   int best_hi_index = 0;
   bool any_good_hivalue = false;
@@ -81,6 +82,7 @@ void OtsuThreshold(const unsigned char* imagedata,
     // Use the best of the ones that were not good enough.
     (*hi_values)[best_hi_index] = best_hi_value;
   }
+  
 }
 
 // Compute the histogram for the given image rectangle, and the given

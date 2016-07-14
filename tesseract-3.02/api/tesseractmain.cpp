@@ -41,22 +41,21 @@
 #include "strngs.h"
 #include "tesseractmain.h"
 #include "tprintf.h"
-
 /**********************************************************************
  *  main()
  *
  **********************************************************************/
 
 int main(int argc, char **argv) {
-	 printf("%d  ", argc); printf("%s  ", argv[1]);
-
-	 //tesseract::TessBaseAPI::receiveargcandargv(argc, argv);
+	
+	/*added my Gautam Navapara
+	it is for thresholding. checking arguments*/
 	 int qw;
 	 char *thrname;
 	 bool flag_thr;
 	 for (qw = 1; qw <argc; qw++)
 	 {
-		 if (!strcmp(argv[qw],"thr"))
+		 if (!strcmp(argv[qw],"-thr"))
 		 {
 			 thrname = argv[2];
 			 flag_thr = true;
@@ -71,7 +70,7 @@ int main(int argc, char **argv) {
 			 flag_thr = false;
 	 }
 
-
+	 /*end*/
 
 
 #ifdef USING_GETTEXT
