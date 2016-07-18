@@ -97,7 +97,7 @@
     </CustomBuildStep>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <AdditionalIncludeDirectories>.\api;.\ccmain;.\ccutil;.\ccstruct;.\classify;.\cube;.\cutil;.\dict;.\image;.\neural_networks\runtime;.\textord;.\viewer;.\wordrec;.;$(SolutionDir)\include;$(SolutionDir)include\leptonica;.\port;$(OPENCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\api;.\ccmain;.\ccutil;.\ccstruct;.\classify;.\cube;.\cutil;.\dict;.\image;.\neural_networks\runtime;.\textord;.\viewer;.\wordrec;.;$(SolutionDir)\include;$(SolutionDir)include\leptonica;.\port;$(SolutionDir)tesseract-3.02\opencv\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;USE_STD_NAMESPACE;TESS_IMPORTS;LIBLEPT_IMPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader />
@@ -158,7 +158,7 @@
     </CustomBuildStep>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.\api;.\ccmain;.\ccutil;.\ccstruct;.\classify;.\cube;.\cutil;.\dict;.\image;.\neural_networks\runtime;.\textord;.\viewer;.\wordrec;.;$(SolutionDir)\include;$(SolutionDir)include\leptonica;.\port;$(OPENCV_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\api;.\ccmain;.\ccutil;.\ccstruct;.\classify;.\cube;.\cutil;.\dict;.\image;.\neural_networks\runtime;.\textord;.\viewer;.\wordrec;.;$(SolutionDir)\include;$(SolutionDir)include\leptonica;.\port;$(SolutionDir)tesseract-3.02\opencv\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;USE_STD_NAMESPACE;TESS_IMPORTS;LIBLEPT_IMPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -177,7 +177,7 @@
       <AdditionalDependencies>ws2_32.lib;user32.lib;liblept$(LIBLEPT_VERSION).lib;libtesseract302.lib;opencv_ts300.lib;opencv_ts300d.lib;opencv_world300.lib;opencv_world300d.lib;opencv_calib3d300.lib;opencv_calib3d300d.lib;opencv_core300.lib;opencv_core300d.lib;opencv_features2d300.lib;opencv_features2d300d.lib;opencv_flann300.lib;opencv_flann300d.lib;opencv_hal300.lib;opencv_hal300d.lib;opencv_highgui300.lib;opencv_highgui300d.lib;opencv_imgcodecs300.lib;opencv_imgcodecs300d.lib;opencv_imgproc300.lib;opencv_imgproc300d.lib;opencv_ml300.lib;opencv_ml300d.lib;opencv_objdetect300.lib;opencv_objdetect300d.lib;opencv_photo300.lib;opencv_photo300d.lib;opencv_shape300.lib;opencv_shape300d.lib;opencv_stitching300.lib;opencv_stitching300d.lib;opencv_superres300.lib;opencv_superres300d.lib;opencv_video300.lib;opencv_video300d.lib;opencv_videoio300.lib;opencv_videoio300d.lib;opencv_videostab300.lib;opencv_videostab300d.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).exe</OutputFile>
       <Version>$(LIBLEPT_NUMBER)</Version>
-      <AdditionalLibraryDirectories>$(SolutionDir)lib\x86\$(Configuration);$(OPENCV_DIR)\x86\vc11\lib;$(OPENCV_DIR)\x86\vc11\staticlib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\x86\$(Configuration);$(SolutionDir)tesseract-3.02\opencv\x86\vc11\lib;$(SolutionDir)tesseract-3.02\opencv\x86\vc11\staticlib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -221,6 +221,208 @@
     <ClCompile Include=".\api\tesseractmain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="opencv\include\opencv2\calib3d.hpp" />
+    <ClInclude Include="opencv\include\opencv2\calib3d\calib3d.hpp" />
+    <ClInclude Include="opencv\include\opencv2\calib3d\calib3d_c.h" />
+    <ClInclude Include="opencv\include\opencv2\core.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\affine.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\base.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\bufferpool.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\core.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\core_c.h" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda.inl.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\block.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\border_interpolate.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\color.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\common.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\datamov_utils.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\detail\color_detail.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\detail\reduce.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\detail\reduce_key_val.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\detail\transform_detail.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\detail\type_traits_detail.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\detail\vec_distance_detail.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\dynamic_smem.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\emulation.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\filters.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\funcattrib.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\functional.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\limits.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\reduce.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\saturate_cast.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\scan.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\simd_functions.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\transform.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\type_traits.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\utility.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\vec_distance.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\vec_math.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\vec_traits.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\warp.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\warp_reduce.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda\warp_shuffle.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda_stream_accessor.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cuda_types.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cvdef.h" />
+    <ClInclude Include="opencv\include\opencv2\core\cvstd.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\cvstd.inl.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\directx.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\eigen.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\ippasync.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\mat.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\mat.inl.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\matx.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\ocl.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\ocl_genbase.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\opengl.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\operations.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\optim.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\persistence.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\private.cuda.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\private.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\ptr.inl.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\sse_utils.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\traits.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\types.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\types_c.h" />
+    <ClInclude Include="opencv\include\opencv2\core\utility.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\version.hpp" />
+    <ClInclude Include="opencv\include\opencv2\core\wimage.hpp" />
+    <ClInclude Include="opencv\include\opencv2\features2d.hpp" />
+    <ClInclude Include="opencv\include\opencv2\features2d\features2d.hpp" />
+    <ClInclude Include="opencv\include\opencv2\flann.hpp" />
+    <ClInclude Include="opencv\include\opencv2\flann\allocator.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\all_indices.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\any.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\autotuned_index.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\composite_index.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\config.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\defines.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\dist.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\dummy.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\dynamic_bitset.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\flann.hpp" />
+    <ClInclude Include="opencv\include\opencv2\flann\flann_base.hpp" />
+    <ClInclude Include="opencv\include\opencv2\flann\general.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\ground_truth.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\hdf5.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\heap.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\hierarchical_clustering_index.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\index_testing.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\kdtree_index.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\kdtree_single_index.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\kmeans_index.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\linear_index.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\logger.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\lsh_index.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\lsh_table.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\matrix.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\miniflann.hpp" />
+    <ClInclude Include="opencv\include\opencv2\flann\nn_index.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\object_factory.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\params.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\random.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\result_set.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\sampling.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\saving.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\simplex_downhill.h" />
+    <ClInclude Include="opencv\include\opencv2\flann\timer.h" />
+    <ClInclude Include="opencv\include\opencv2\hal.hpp" />
+    <ClInclude Include="opencv\include\opencv2\hal\defs.h" />
+    <ClInclude Include="opencv\include\opencv2\hal\intrin.hpp" />
+    <ClInclude Include="opencv\include\opencv2\hal\intrin_cpp.hpp" />
+    <ClInclude Include="opencv\include\opencv2\hal\intrin_neon.hpp" />
+    <ClInclude Include="opencv\include\opencv2\hal\intrin_sse.hpp" />
+    <ClInclude Include="opencv\include\opencv2\highgui.hpp" />
+    <ClInclude Include="opencv\include\opencv2\highgui\highgui.hpp" />
+    <ClInclude Include="opencv\include\opencv2\highgui\highgui_c.h" />
+    <ClInclude Include="opencv\include\opencv2\imgcodecs.hpp" />
+    <ClInclude Include="opencv\include\opencv2\imgcodecs\imgcodecs.hpp" />
+    <ClInclude Include="opencv\include\opencv2\imgcodecs\imgcodecs_c.h" />
+    <ClInclude Include="opencv\include\opencv2\imgcodecs\ios.h" />
+    <ClInclude Include="opencv\include\opencv2\imgproc.hpp" />
+    <ClInclude Include="opencv\include\opencv2\imgproc\imgproc.hpp" />
+    <ClInclude Include="opencv\include\opencv2\imgproc\imgproc_c.h" />
+    <ClInclude Include="opencv\include\opencv2\imgproc\types_c.h" />
+    <ClInclude Include="opencv\include\opencv2\ml.hpp" />
+    <ClInclude Include="opencv\include\opencv2\ml\ml.hpp" />
+    <ClInclude Include="opencv\include\opencv2\objdetect.hpp" />
+    <ClInclude Include="opencv\include\opencv2\objdetect\detection_based_tracker.hpp" />
+    <ClInclude Include="opencv\include\opencv2\objdetect\objdetect.hpp" />
+    <ClInclude Include="opencv\include\opencv2\objdetect\objdetect_c.h" />
+    <ClInclude Include="opencv\include\opencv2\opencv.hpp" />
+    <ClInclude Include="opencv\include\opencv2\opencv_modules.hpp" />
+    <ClInclude Include="opencv\include\opencv2\photo.hpp" />
+    <ClInclude Include="opencv\include\opencv2\photo\cuda.hpp" />
+    <ClInclude Include="opencv\include\opencv2\photo\photo.hpp" />
+    <ClInclude Include="opencv\include\opencv2\photo\photo_c.h" />
+    <ClInclude Include="opencv\include\opencv2\shape.hpp" />
+    <ClInclude Include="opencv\include\opencv2\shape\emdL1.hpp" />
+    <ClInclude Include="opencv\include\opencv2\shape\hist_cost.hpp" />
+    <ClInclude Include="opencv\include\opencv2\shape\shape.hpp" />
+    <ClInclude Include="opencv\include\opencv2\shape\shape_distance.hpp" />
+    <ClInclude Include="opencv\include\opencv2\shape\shape_transformer.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\detail\autocalib.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\detail\blenders.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\detail\camera.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\detail\exposure_compensate.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\detail\matchers.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\detail\motion_estimators.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\detail\seam_finders.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\detail\timelapsers.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\detail\util.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\detail\util_inl.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\detail\warpers.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\detail\warpers_inl.hpp" />
+    <ClInclude Include="opencv\include\opencv2\stitching\warpers.hpp" />
+    <ClInclude Include="opencv\include\opencv2\superres.hpp" />
+    <ClInclude Include="opencv\include\opencv2\superres\optical_flow.hpp" />
+    <ClInclude Include="opencv\include\opencv2\ts.hpp" />
+    <ClInclude Include="opencv\include\opencv2\ts\cuda_perf.hpp" />
+    <ClInclude Include="opencv\include\opencv2\ts\cuda_test.hpp" />
+    <ClInclude Include="opencv\include\opencv2\ts\ocl_perf.hpp" />
+    <ClInclude Include="opencv\include\opencv2\ts\ocl_test.hpp" />
+    <ClInclude Include="opencv\include\opencv2\ts\ts_ext.hpp" />
+    <ClInclude Include="opencv\include\opencv2\ts\ts_gtest.h" />
+    <ClInclude Include="opencv\include\opencv2\ts\ts_perf.hpp" />
+    <ClInclude Include="opencv\include\opencv2\video.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videoio.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videoio\cap_ios.h" />
+    <ClInclude Include="opencv\include\opencv2\videoio\videoio.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videoio\videoio_c.h" />
+    <ClInclude Include="opencv\include\opencv2\videostab.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\deblurring.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\fast_marching.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\fast_marching_inl.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\frame_source.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\global_motion.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\inpainting.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\log.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\motion_core.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\motion_stabilizing.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\optical_flow.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\outlier_rejection.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\ring_buffer.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\stabilizer.hpp" />
+    <ClInclude Include="opencv\include\opencv2\videostab\wobble_suppression.hpp" />
+    <ClInclude Include="opencv\include\opencv2\video\background_segm.hpp" />
+    <ClInclude Include="opencv\include\opencv2\video\tracking.hpp" />
+    <ClInclude Include="opencv\include\opencv2\video\tracking_c.h" />
+    <ClInclude Include="opencv\include\opencv2\video\video.hpp" />
+    <ClInclude Include="opencv\include\opencv2\world.hpp" />
+    <ClInclude Include="opencv\include\opencv\cv.h" />
+    <ClInclude Include="opencv\include\opencv\cv.hpp" />
+    <ClInclude Include="opencv\include\opencv\cvaux.h" />
+    <ClInclude Include="opencv\include\opencv\cvaux.hpp" />
+    <ClInclude Include="opencv\include\opencv\cvwimage.h" />
+    <ClInclude Include="opencv\include\opencv\cxcore.h" />
+    <ClInclude Include="opencv\include\opencv\cxcore.hpp" />
+    <ClInclude Include="opencv\include\opencv\cxeigen.hpp" />
+    <ClInclude Include="opencv\include\opencv\cxmisc.h" />
+    <ClInclude Include="opencv\include\opencv\highgui.h" />
+    <ClInclude Include="opencv\include\opencv\ml.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include=".\api\tesseractmain.h" />
   </ItemGroup>
@@ -228,6 +430,9 @@
     <ResourceCompile Include="tesseract.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\leptonica-1.68\leptonica.vcxproj">
+      <Project>{1d7ab886-beca-4a97-89ce-7381d3f5de00}</Project>
+    </ProjectReference>
     <ProjectReference Include=".\libtesseract.vcxproj">
       <Project>{d14f28c7-0cae-4c37-b174-40fdefbd4fe0}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

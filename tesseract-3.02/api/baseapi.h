@@ -479,7 +479,7 @@ class TESS_API TessBaseAPI {
    */
   bool ProcessPages(const char* filename,
                     const char* retry_config, int timeout_millisec,
-                    STRING* text_out,bool flag_thr);
+					STRING* text_out, bool flag_thr, int boxONrlw);
 
   /**
    * Recognizes a single page for ProcessPages, appending the text to text_out.
@@ -494,7 +494,7 @@ class TESS_API TessBaseAPI {
    */
   bool ProcessPage(Pix* pix, int page_index, const char* filename,
                    const char* retry_config, int timeout_millisec,
-                   STRING* text_out,bool flag_thr);
+				   STRING* text_out, bool flag_thr, int boxONrlw);
 
   /**
    * Get a reading-order iterator to the results of LayoutAnalysis and/or

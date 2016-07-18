@@ -35,12 +35,16 @@
 #define _(x) (x)
 #endif
 
+#include<iostream>
+#include<fstream>
 #include "allheaders.h"
 #include "baseapi.h"
 #include "basedir.h"
 #include "strngs.h"
 #include "tesseractmain.h"
 #include "tprintf.h"
+#include "opencv\cv.h"
+#include "opencv\highgui.h"
 /**********************************************************************
  *  main()
  *
@@ -48,26 +52,69 @@
 
 int main(int argc, char **argv) {
 	
-	/*added my Gautam Navapara
+	/*added by Gautam Navapara
 	it is for thresholding. checking arguments*/
-	 int qw;
+	 int count_thr;
 	 char *thrname;
 	 bool flag_thr;
-	 for (qw = 1; qw <argc; qw++)
+	 for (count_thr = 1; count_thr <argc; count_thr++)
 	 {
-		 if (!strcmp(argv[qw],"-thr"))
+		 if (!strcmp(argv[count_thr],"-thr"))
 		 {
 			 thrname = argv[2];
 			 flag_thr = true;
 			 FILE *temp_fp;
-			 temp_fp = fopen("TesseractTemp.txt", "w");
-			 fprintf(temp_fp, "%s_thresholded.jpg", thrname);
+			 temp_fp = fopen("TesseractTemp1.txt", "w");
+			 fprintf(temp_fp, "%s", thrname);
 			 fclose(temp_fp);
 
 			 break;
 		 }
 		 else
 			 flag_thr = false;
+	 }
+
+	 /*end*/
+
+
+	 /*this is added by Gautam. it just check for argument for boxes.*/
+
+	 int count_box;
+	 int boxONrlw = 0; //box on region,line,words
+	 char *boxname, *OutBoxImage;
+	 bool flag_box = false;
+	 for (count_box = 1; count_box <argc; count_box++)
+	 {
+		 if (!strcmp(argv[count_box], "-box"))
+		 {
+			 boxname = argv[2];
+			 OutBoxImage = argv[1];
+			 flag_box = true;
+			 FILE *temp_fp;
+			 temp_fp = fopen("TesseractTemp2.txt", "w");
+			 fprintf(temp_fp, "%s", boxname);
+			 fclose(temp_fp);
+
+			 switch (atoi(argv[count_box + 1]))
+			 {
+			 case 1:
+				 boxONrlw = 1;
+				 break;
+			 case 2:
+				 boxONrlw = 2;
+				 break;
+			 case 3:
+				 boxONrlw = 3;
+				 break;
+			 default:
+				 printf("Not valid argument for getting boxes\n");
+				 boxONrlw = 0;
+				 break;
+			 }
+
+			 break;
+		 }
+		 
 	 }
 
 	 /*end*/
@@ -122,6 +169,7 @@ int main(int argc, char **argv) {
   const char* image = NULL;
   const char* output = NULL;
   tesseract::PageSegMode pagesegmode = tesseract::PSM_AUTO;
+  tesseract::DrawBox Boxmode;
   int arg = 1;
   while (arg < argc && (output == NULL || argv[arg][0] == '-')) {
     if (strcmp(argv[arg], "-l") == 0 && arg + 1 < argc) {
@@ -130,7 +178,10 @@ int main(int argc, char **argv) {
     } else if (strcmp(argv[arg], "-psm") == 0 && arg + 1 < argc) {
       pagesegmode = static_cast<tesseract::PageSegMode>(atoi(argv[arg + 1]));
       ++arg;
-    } else if (image == NULL) {
+	} else if (strcmp(argv[arg], "-box") == 0 && arg + 1 < argc) {
+		Boxmode = static_cast<tesseract::DrawBox>(atoi(argv[arg + 1]));
+		++arg;
+	} else if (image == NULL) {
       image = argv[arg];
     } else if (output == NULL) {
       output = argv[arg];
@@ -139,7 +190,7 @@ int main(int argc, char **argv) {
   }
   if (output == NULL) {
     fprintf(stderr, _("Usage:%s imagename outputbase [-l lang] "
-                      "[-psm pagesegmode] [configfile...]\n\n"), argv[0]);
+                      "[-psm pagesegmode] [-box boxmode] [configfile...]\n\n"), argv[0]);
     fprintf(stderr,
             _("pagesegmode values are:\n"
               "0 = Orientation and script detection (OSD) only.\n"
@@ -153,12 +204,19 @@ int main(int argc, char **argv) {
               "8 = Treat the image as a single word.\n"
               "9 = Treat the image as a single word in a circle.\n"
               "10 = Treat the image as a single character.\n"));
+	fprintf(stderr,
+		_("boxmode values are:\n"
+		"1 = Get boxes on regions.\n"
+		"2 = Get boxes on lines.\n"
+		"3 = Get boxes on words.\n"));
     fprintf(stderr, _("-l lang and/or -psm pagesegmode must occur before any"
                       "configfile.\n\n"));
     fprintf(stderr, _("Single options:\n"));
     fprintf(stderr, _("  -v --version: version info\n"));
     fprintf(stderr, _("  --list-langs: list available languages for tesseract "
                       "engine\n"));
+	fprintf(stderr, _(" -thr for thresholded image\n"));
+
     exit(1);
   }
 
@@ -205,7 +263,7 @@ int main(int argc, char **argv) {
   pixDestroy(&pixs);
 
   STRING text_out;
-  if (!api.ProcessPages(image, NULL, 0, &text_out,flag_thr)) {
+  if (!api.ProcessPages(image, NULL, 0, &text_out, flag_thr, boxONrlw)) {
     fprintf(stderr, _("Error during processing.\n"));
   }
   bool output_hocr = false;
@@ -221,6 +279,28 @@ int main(int argc, char **argv) {
   }
   fwrite(text_out.string(), 1, text_out.length(), fout);
   fclose(fout);
+  
+
+  /*added by Gautam*/
+  if (flag_box){
+
+	  FILE *fp;
+	  int x, y, w, h, i, n, version, ignore;
+	  std::string temp_boxes = boxname + std::string("_box");
+	  std::string temp_boxesImage = boxname + std::string("_box.jpg");
+	  fp = fopen(temp_boxes.c_str(), "r");
+	  fscanf(fp, "\nBoxa Version %d\n", &version);
+	  fscanf(fp, "Number of boxes = %d\n", &n);
+
+	  IplImage *img1 = cvLoadImage(OutBoxImage, CV_LOAD_IMAGE_UNCHANGED);
+	  for (i = 0; i < n; i++){
+		  fscanf(fp, "  Box[%d]: x = %d, y = %d, w = %d, h = %d\n", &ignore, &x, &y, &w, &h);
+		  //printf("  Box[%d]: x = %d, y = %d, w = %d, h = %d\n", ignore, x, y, w, h);
+		  cvRectangle(img1, CvPoint(x, y), CvPoint(x + w, y + h), CvScalar(0, 0, 255), 2, 8, 0);
+	  }
+	  cvSaveImage(temp_boxesImage.c_str(), img1);
+	  remove(temp_boxes.c_str());
+  }
 
   return 0;                      // Normal exit
 }

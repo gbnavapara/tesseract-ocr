@@ -78,11 +78,9 @@
 #include "version.h"
 #endif
 
-
-
+ 
 
 namespace tesseract {
-
 /** Minimum sensible image size to be worth running tesseract. */
 const int kMinRectSize = 10;
 /** Character returned when Tesseract couldn't recognize as anything. */
@@ -815,7 +813,7 @@ int TessBaseAPI::RecognizeForChopTest(ETEXT_DESC* monitor) {
  */
 bool TessBaseAPI::ProcessPages(const char* filename,
                                const char* retry_config, int timeout_millisec,
-                               STRING* text_out,bool flag_thr) {
+							   STRING* text_out, bool flag_thr, int boxONrlw) {
   int page = tesseract_->tessedit_page_number;
   if (page < 0)
     page = 0;
@@ -856,7 +854,7 @@ bool TessBaseAPI::ProcessPages(const char* filename,
       snprintf(page_str, kMaxIntSize - 1, "%d", page);
       SetVariable("applybox_page", page_str);
       success &= ProcessPage(pix, page, filename, retry_config,
-                             timeout_millisec, text_out,flag_thr);
+                             timeout_millisec, text_out,flag_thr,boxONrlw);
       pixDestroy(&pix);
       if (tesseract_->tessedit_page_number >= 0 || npages == 1) {
         break;
@@ -867,7 +865,7 @@ bool TessBaseAPI::ProcessPages(const char* filename,
     pix = pixRead(filename);
     if (pix != NULL) {
       success &= ProcessPage(pix, 0, filename, retry_config,
-                             timeout_millisec, text_out,flag_thr);
+                             timeout_millisec, text_out,flag_thr,boxONrlw);
       pixDestroy(&pix);
     } else {
       // The file is not an image file, so try it as a list of filenames.
@@ -892,7 +890,7 @@ bool TessBaseAPI::ProcessPages(const char* filename,
         }
         tprintf(_("Page %d : %s\n"), page, pagename);
         success &= ProcessPage(pix, page, pagename, retry_config,
-                               timeout_millisec, text_out,flag_thr);
+                               timeout_millisec, text_out,flag_thr,boxONrlw);
         pixDestroy(&pix);
         ++page;
       }
@@ -917,22 +915,24 @@ bool TessBaseAPI::ProcessPages(const char* filename,
  */
 bool TessBaseAPI::ProcessPage(Pix* pix, int page_index, const char* filename,
                               const char* retry_config, int timeout_millisec,
-                              STRING* text_out,bool flag_thr) {
+							  STRING* text_out, bool flag_thr, int boxONrlw) {
   SetInputName(filename);
   SetImage(pix);
 
   /* this is edited code for thresholding*/
   
-
-  std::string temp_line;
-  std::ifstream temp_fp("TesseractTemp.txt");
-  getline(temp_fp, temp_line);
-  temp_fp.close();
-  remove("TesseractTemp.txt");
-
   if (flag_thr){
+  std::string temp_line;
+  std::ifstream temp_fp("TesseractTemp1.txt");
+  getline(temp_fp, temp_line);
+  std::string temp_threshold = temp_line + "_thresholded.jpg";
+  temp_fp.close();
+  
+  remove("TesseractTemp1.txt");
+
+  
 	  PIX* thresholded = GetThresholdedImage();
-	  pixWrite(temp_line.c_str(), thresholded, 3);
+	  pixWrite(temp_threshold.c_str(), thresholded, 3); //("%s_thresholded.jpg",temp_line.c_str())
   }
  //end of editing
 
@@ -959,6 +959,46 @@ bool TessBaseAPI::ProcessPage(Pix* pix, int page_index, const char* filename,
   } else {
     // Normal layout and character recognition with no timeout.
     failed = Recognize(NULL) < 0;
+
+
+	/* this is added by Gautam Navapara
+	 it create box file to draw boxes on given image*/
+
+	if (boxONrlw != 0){
+
+		std::string temp_line;
+		std::ifstream temp_fp("TesseractTemp2.txt");
+		getline(temp_fp, temp_line);
+		std::string temp_boxes = temp_line + "_box";
+		temp_fp.close();
+		remove("TesseractTemp2.txt");
+
+		switch (boxONrlw)
+		{
+		case 1:
+		{
+				  BOXA* layout = GetRegions(NULL);
+				  boxaWrite(temp_boxes.c_str(), layout);
+				  break;
+		}
+		case 2:
+		{		BOXA* layout2 = GetTextlines(NULL, NULL);
+		boxaWrite(temp_boxes.c_str(), layout2);
+		break;
+		}
+		case 3:
+		{
+				  BOXA* layout3 = GetWords(NULL);
+				  boxaWrite(temp_boxes.c_str(), layout3);
+				  break;
+		}
+
+		}
+
+	}
+	
+	/*end of adding*/
+
   }
   if (tesseract_->tessedit_write_images) {
     Pix* page_pix = GetThresholdedImage();

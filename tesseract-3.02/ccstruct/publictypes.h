@@ -162,6 +162,12 @@ enum PageSegMode {
   PSM_COUNT           ///< Number of enum entries.
 };
 
+enum DrawBox {
+	DrawOnRegions = 1,
+	DrawOnLines = 2,
+	DrawOnWords = 3,
+};
+
 /**
  * Macros that act on a PageSegMode to determine whether components of
  * layout analysis are enabled.
