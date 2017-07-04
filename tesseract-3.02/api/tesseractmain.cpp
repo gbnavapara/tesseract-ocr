@@ -37,6 +37,8 @@
 
 #include<iostream>
 #include<fstream>
+#include<string>
+//#include <time.h>
 #include "allheaders.h"
 #include "baseapi.h"
 #include "basedir.h"
@@ -51,7 +53,10 @@
  **********************************************************************/
 
 int main(int argc, char **argv) {
-	
+
+	std::cout << "Welcome \n";
+	//clock_t start, end;
+	//start = clock();
 	/*added by Gautam Navapara
 	it is for thresholding. checking arguments*/
 	 int count_thr;
@@ -59,19 +64,19 @@ int main(int argc, char **argv) {
 	 bool flag_thr;
 	 for (count_thr = 1; count_thr <argc; count_thr++)
 	 {
-		 if (!strcmp(argv[count_thr],"-thr"))
+		 if (!strcmp(argv[count_thr],"-thr"))		//check if -thr is there in commandline
 		 {
-			 thrname = argv[2];
+			 thrname = argv[2];					//copy file name
 			 flag_thr = true;
 			 FILE *temp_fp;
 			 temp_fp = fopen("TesseractTemp1.txt", "w");
-			 fprintf(temp_fp, "%s", thrname);
+			 fprintf(temp_fp, "%s", thrname);			//save file name for future use
 			 fclose(temp_fp);
 
 			 break;
 		 }
 		 else
-			 flag_thr = false;
+			 flag_thr = false;				//set flag if -thr is there
 	 }
 
 	 /*end*/
@@ -80,14 +85,14 @@ int main(int argc, char **argv) {
 	 /*this is added by Gautam. it just check for argument for boxes.*/
 
 	 int count_box;
-	 int boxONrlw = 0; //box on region,line,words
+	 int boxONrlw = 0;						//box on region,line,words
 	 char *boxname, *OutBoxImage;
 	 bool flag_box = false;
 	 for (count_box = 1; count_box <argc; count_box++)
 	 {
-		 if (!strcmp(argv[count_box], "-box"))
+		 if (!strcmp(argv[count_box], "-box"))			//check if -box is there in commandline
 		 {
-			 boxname = argv[2];
+			 boxname = argv[2];						//save file name
 			 OutBoxImage = argv[1];
 			 flag_box = true;
 			 FILE *temp_fp;
@@ -277,7 +282,9 @@ int main(int argc, char **argv) {
     fprintf(stderr, _("Cannot create output file %s\n"), outfile.string());
     exit(1);
   }
+  
   fwrite(text_out.string(), 1, text_out.length(), fout);
+  
   fclose(fout);
   
 
@@ -296,12 +303,16 @@ int main(int argc, char **argv) {
 	  for (i = 0; i < n; i++){
 		  fscanf(fp, "  Box[%d]: x = %d, y = %d, w = %d, h = %d\n", &ignore, &x, &y, &w, &h);
 		  //printf("  Box[%d]: x = %d, y = %d, w = %d, h = %d\n", ignore, x, y, w, h);
-		  cvRectangle(img1, CvPoint(x, y), CvPoint(x + w, y + h), CvScalar(0, 0, 255), 2, 8, 0);
+		  cvRectangle(img1, CvPoint(x, y), CvPoint(x + w, y + h), CvScalar(0, 0, 255), 1, 8, 0);
 	  }
 	  cvSaveImage(temp_boxesImage.c_str(), img1);
-	  remove(temp_boxes.c_str());
+	  //remove(temp_boxes.c_str());
   }
 
+  //end = clock();
+  //float diff((float)end - (float)start);
+ //printf ("Elasped time is %.2lf seconds.", diff/CLOCKS_PER_SEC );
+ //system("pause");
   return 0;                      // Normal exit
 }
 

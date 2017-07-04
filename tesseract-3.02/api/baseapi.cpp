@@ -932,7 +932,7 @@ bool TessBaseAPI::ProcessPage(Pix* pix, int page_index, const char* filename,
 
   
 	  PIX* thresholded = GetThresholdedImage();
-	  pixWrite(temp_threshold.c_str(), thresholded, 3); //("%s_thresholded.jpg",temp_line.c_str())
+	  pixWrite(temp_threshold.c_str(), thresholded, 1); //("%s_thresholded.jpg",temp_line.c_str())
   }
  //end of editing
 

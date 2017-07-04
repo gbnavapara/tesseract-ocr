@@ -210,7 +210,7 @@ class TESS_API TessBaseAPI {
     return Init(datapath, language, oem, NULL, 0, NULL, NULL, false);
   }
   int Init(const char* datapath, const char* language) {
-    return Init(datapath, language, OEM_DEFAULT, NULL, 0, NULL, NULL, false);
+	  return Init(datapath, language, OEM_DEFAULT, NULL, 0, NULL, NULL, false);
   }
 
   /**
